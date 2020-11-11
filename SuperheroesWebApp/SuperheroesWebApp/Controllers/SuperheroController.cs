@@ -55,16 +55,18 @@ namespace SuperheroesWebApp.Controllers
         // GET: HeroController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(_context.Superheroes.Where(hero => hero.Id == id).SingleOrDefault());
         }
 
         // POST: HeroController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Superhero hero)
         {
             try
             {
+                _context.Superheroes.Update(hero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
